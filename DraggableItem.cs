@@ -122,20 +122,23 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             }
         }
 
-        // Swap bounding dimensions
+        // 1. Swap mathematical bounding dimensions for the grid logic
         int temp = boundingWidth;
         boundingWidth = boundingHeight;
         boundingHeight = temp;
 
         shapeMatrix = rotatedMatrix;
 
-        // Instantly alter the structural size of the parent rect handler container
+        // 2. Alter structural size of the parent calculation container to match the grid math
         rectTransform.sizeDelta = new Vector2(boundingWidth * inventory.cellSize, boundingHeight * inventory.cellSize);
 
-        // Turn only the visual elements to protect upper-left absolute alignment targets
+        // 3. Rotate visual tracking data
         visualRotationAngle -= 90f;
+
         if (visualSpriteElement != null)
         {
+            // Simply spin the child around its center point. 
+            // Since it's anchored to the center and not stretching, it will never distort!
             visualSpriteElement.localRotation = Quaternion.Euler(0, 0, visualRotationAngle);
         }
     }
